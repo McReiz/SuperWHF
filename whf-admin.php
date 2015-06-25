@@ -37,5 +37,6 @@ function superWHF_admin(){
 }
 function superWHF_jobs(){
     echo "probando";
+    echo DB_USER;
 }
 ?>
