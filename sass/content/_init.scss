@@ -1,0 +1,29 @@
+h1,h2,h3,h4,h5,h6,h7{
+    font-family: $font-3;
+}
+a{
+    color: deeppink;
+    text-decoration: none;
+    font-family: $font-1;
+    
+    &:hover{
+        text-decoration:underline;
+    }
+}
+div, main, section, footer{
+    @include fonts(1,bold,15px);
+}
+#main-header, #main-content, #main-footer{
+    width:90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    @include display(flex);
+}
+.boton{
+    padding: 5px;
+    border-radius:5px;
+    
+    &.primario{
+        background-color: $color-principal;
+    }
+}

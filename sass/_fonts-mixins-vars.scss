@@ -1,0 +1,52 @@
+/* fonts */
+@font-face {
+    font-family: 'Raleway';
+    src: url('../fonts/Raleway.eot');
+    src: url('../fonts/Raleway.eot') format('embedded-opentype'),
+         url('../fonts/Raleway.woff2') format('woff2'),
+         url('../fonts/Raleway.woff') format('woff'),
+         url('../fonts/Raleway.ttf') format('truetype'),
+         url('../fonts/Raleway.svg#Raleway') format('svg');
+}
+@font-face {
+    font-family: 'JosefinSans';
+    src: url('../fonts/JosefinSans.eot');
+    src: url('../fonts/JosefinSans.eot') format('embedded-opentype'),
+         url('../fonts/JosefinSans.woff2') format('woff2'),
+         url('../fonts/JosefinSans.woff') format('woff'),
+         url('../fonts/JosefinSans.ttf') format('truetype'),
+         url('../fonts/JosefinSans.svg#JosefinSans') format('svg');
+}
+@font-face {
+    font-family: 'Dosis';
+    src: url('../fonts/Dosis.eot');
+    src: url('../fonts/Dosis.eot') format('embedded-opentype'),
+         url('../fonts/Dosis.woff2') format('woff2'),
+         url('../fonts/Dosis.woff') format('woff'),
+         url('../fonts/Dosis.ttf') format('truetype'),
+         url('../fonts/Dosis.svg#Dosis') format('svg');
+}
+/* Variables */
+$font-1: 'Raleway', Georgia, Serif;
+$font-2: 'JosefinSans', Georgia, Serif;
+$font-3: 'Dosis', Georgia, Serif;
+
+$color-principal: rgb(60,200,30);
+$color-secundario: rgb(15,25,120);
+
+/* Mixins */
+@mixin fonts($number-font, $weight, $size){
+	@if $number-font == 1{
+		font-family: $font-1;
+	}
+    @if $number-font == 2{
+		font-family: $font-2;
+	}
+    @if$number-font == 3{
+		font-family: $font-3;
+	}
+	font:{
+		weight: $weight;
+		size: $size;
+	}
+}
