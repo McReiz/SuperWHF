@@ -33,8 +33,8 @@ function whf_confirmar(){
         $tools = $_POST['jobs_resource'];
         $wpdb->insert($whf_jobs, array(
                 'jobs_keys' => $key,
+                'jobs_pages' => $page,
                 'jobs_used' => 0,
-                'jobs_page' => $page,
                 'jobs_herramientas' => $tools
                 ), array('%s','%d') );
         ?>
@@ -44,7 +44,6 @@ function whf_confirmar(){
 }
 function superWHF_admin(){
     global $wpdb;
-    $whf_jobs = $wpdb->prefix. "whf_jobs";
     ?>
     <div id="s-whf">
         <header id="main-header"><h1>Super WhiteHatFirm Plugin</h1></header>
@@ -74,20 +73,6 @@ function superWHF_admin(){
                         <?php submit_button(); ?>
                     </form>
                 </div>
-            </div>
-            <div id="jobs">
-                <?php 
-                    $query = $wpdb->get_results("SELECT * FROM $whf_jobs", ARRAY_A);
-                    foreach($query as $row){
-                        ?> 
-                        <div class="<?php if($row['jobs_user'] == true){ echo "used"; }else{ echo "no-use"; } ?>">
-                            <div><?= $row['jobs_keys'] ?></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                        <?php
-                    }
-                ?>
             </div>
         </main>
     </div>

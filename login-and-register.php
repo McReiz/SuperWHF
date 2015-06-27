@@ -10,7 +10,8 @@ function formLogin_WHF(){
     }
 }
 function formRegister_WHF(){
-    wp_register();
+    //wp_register_form();
+
 }
 add_shortcode( 'formLogin', 'formLogin_WHF' );
 add_shortcode( 'formRegister', 'formRegister_WHF' );
