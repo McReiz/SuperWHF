@@ -76,14 +76,30 @@ function superWHF_admin(){
                 </div>
             </div>
             <div id="jobs">
-                <?php 
-                    $query = $wpdb->get_results("SELECT * FROM $whf_jobs", ARRAY_A);
+                <div class="head">
+                    <div class="administrar"></div>
+                    <div class="sitio">Sitio web: </div>
+                    <div class="cliente">Cliente: </div>
+                    <div class="key">Llave: </div>
+                    <div class="progreso">Progreso: </div>
+                </div>
+                <?php
+                function value_use(){
+                    if($row['jobs_user'] == true){
+                        echo "used";
+                    }else{
+                        echo "no-use";
+                    }
+                } 
+                $query = $wpdb->get_results("SELECT * FROM $whf_jobs", ARRAY_A);
                     foreach($query as $row){
                         ?> 
-                        <div class="<?php if($row['jobs_user'] == true){ echo "used"; }else{ echo "no-use"; } ?>">
-                            <div><?= $row['jobs_keys'] ?></div>
-                            <div></div>
-                            <div></div>
+                        <div class="items <?php value_use(); ?>">
+                            <div class="administrar"><a href="<?= URLADMIN ?>jobs-id=<?= $row['jobs_id'] ?>">Administrar</a></div>
+                            <div class="sitio"><?= $row['jobs_page'] ?></div>
+                            <div class="cliente"><?= $row['jobs_cliente'] ?></div>
+                            <div class="key"><?= $row['jobs_keys'] ?></div>
+                            <div class="progreso"><?= $row['jobs_progress'] ?></div>
                         </div>
                         <?php
                     }

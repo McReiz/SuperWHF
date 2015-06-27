@@ -12,6 +12,7 @@ Author URI: http://fb.com/elReiz
     $version_whf = "alpha 0.9.11"; 
     define('STYLE', plugins_url('SuperWHF/estilos/'));
     define('SCRIPT', plugins_url('SuperWHF/scripts/'));
+    define('URLADMIN', admin_url('admin.php?page=super-whf&'));
 
     function superWHF_install(){
         global $wpdb;

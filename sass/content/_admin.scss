@@ -26,12 +26,47 @@
 		}
 	}
 }
-.comandos{
-	@include display(flex);
-}
-#notifiy{
-	padding: 5px;
-	background-color: #0073AA;
-	color: white;
-	margin-left: 5px;
+#s-whf{
+	.comandos{
+		@include display(flex);
+	}
+	#notifiy{
+		padding: 5px;
+		background-color: #0073AA;
+		color: white;
+		margin-left: 5px;
+	}
+	   #main-content{
+        display:inline;
+
+        #jobs{
+        	margin-top: 15px;
+            width: 100%;
+            display: table;
+            .head, .items{
+            	padding: 3px;
+            	@include box-sizing(border-box);
+            }
+            .head{
+            	display: table-header-group;
+            	background-color: #0073AA;
+            	color: white;
+            }
+            .items{
+            	margin-top: 5px;
+            	background-color: rgb(240,240,240);
+            	display: table-row;
+            }
+            .head, .items{
+            	.sitio, .cliente, .key, .progreso{
+            		display: table-cell;
+            		padding: 5px;
+            	}
+            	div:nth-child(2n+2){
+            		background-color: rgba(0,0,0,.2); 
+            	}
+            }
+
+        }
+    }
 }

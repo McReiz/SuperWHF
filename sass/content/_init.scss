@@ -21,12 +21,6 @@
         margin: 0 auto;
         @include display(flex);
     }
-    #main-content{
-        display:inline;
-        #jobs{
-            width: 100%;
-        }
-    }
 }
 .boton{
     padding: 5px;
