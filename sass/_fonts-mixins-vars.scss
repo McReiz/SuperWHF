@@ -32,7 +32,12 @@ $font-2: 'JosefinSans', Georgia, Serif;
 $font-3: 'Dosis', Georgia, Serif;
 
 $color-principal: rgb(60,200,30);
-$color-secundario: rgb(15,25,120);
+$color-secundario: #0073AA;
+
+$progress: #E0BA19;
+$progress-h: #AD9019;
+$terminado: #1DB65A;
+$terminado-h: #189E4D;
 
 /* Mixins */
 @mixin fonts($number-font, $weight, $size){

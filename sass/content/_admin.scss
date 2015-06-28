@@ -32,12 +32,12 @@
 	}
 	#notifiy{
 		padding: 5px;
-		background-color: #0073AA;
+		background-color: $color-secundario;
 		color: white;
 		margin-left: 5px;
 	}
 	   #main-content{
-        display:inline;
+        display:inline-block;
 
         #jobs{
         	margin-top: 15px;
@@ -51,22 +51,142 @@
             	display: table-header-group;
             	background-color: #0073AA;
             	color: white;
+                text-align: center;
             }
             .items{
             	margin-top: 5px;
             	background-color: rgb(240,240,240);
             	display: table-row;
+                @include transition(.5s all ease-in);
+                
+                &:hover{
+                    background-color: rgb(220,220,220);
+                }
             }
             .head, .items{
-            	.sitio, .cliente, .key, .progreso{
+            	.administrar, .sitio, .cliente, .key, .progreso{
             		display: table-cell;
             		padding: 5px;
+                    
             	}
             	div:nth-child(2n+2){
-            		background-color: rgba(0,0,0,.2); 
+            		background-color: rgba(0,0,0,.1); 
             	}
+                administrar, .progreso{
+                    text-align: center;
+                }
+                .administrar{
+                    width: 90px;
+                }
+                .progreso{
+                    width: 80px;
+                }
             }
-
+            
+        }
+       .used{
+            background-color: $progress!important;
+            color: white;
+           
+           a{
+                color:#87295C;
+            }
+           &:hover{
+                background-color: $progress-h!important;
+           }
+        }
+       .terminado{
+           background-color: $terminado!important;
+           color:white;
+           
+           a{
+                color:#87295C;
+           }
+           &:hover{
+                background-color: $terminado-h!important;
+           }
+       }
+    }
+    .profile, .sidebar{
+        @include box-sizing(border-box);
+        display: inline-block;
+        vertical-align: top;
+    }
+    .profile{
+        width: 70%;
+        header{
+            h1{
+                padding: 9px 9px 13px 9px;
+                background-color: $color-secundario;
+                color: white;
+            }
+        }
+        .form-log{
+            @include display(flex);
+            
+            input, textarea{
+                margin: 5px;
+            }
+            textarea{
+                @include flex-grow(3);
+                max-height: 96px;
+                min-height: 92px;
+            }
+        }
+        #comments {
+            background-color: rgba(0, 0, 0, 0.1);
+            margin: 5px;
+            
+            .comment{
+                padding: 15px 10px 2px;
+                
+                display: block;
+                &:nth-child(2n+2){
+                    background-color: rgba(30, 30, 30, 0.1);
+                }
+                .contenido, .datos{
+                    @include display(flex);
+                }
+                .contenido{
+                    font-size: 22px;
+                    text-align: justify;
+                }
+                .datos{
+                    @include justify-content(space-around);
+                    .author, .date{
+                        padding: 10px;
+                        font-size: 10px;
+                    }
+                }
+            }
+        }
+    }
+    .sidebar{
+        margin-top: 50px;
+        width: 29%;
+        
+        #box{
+            margin-top: 20px;
+            h3{
+                padding: 5px;
+                margin: 5px;
+                text-align: center;
+            }
+            #cd{
+                @include display(flex);
+                @include justify-content(space-around);
+                @include align-items(center);
+            }
+            input[type="range"]{
+                width: 100%;
+            }
+            #resource{
+                @include display(flex);
+                @include justify-content(space-around);
+                @include align-items(center);
+                
+                div input{width:95%;padding:5px;}
+            }
         }
     }
 }

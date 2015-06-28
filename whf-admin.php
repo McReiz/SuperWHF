@@ -34,11 +34,10 @@ function whf_confirmar(){
         $wpdb->insert($whf_jobs, array(
                 'jobs_keys' => $key,
                 'jobs_used' => 0,
-                'jobs_page' => $page,
-                'jobs_herramientas' => $tools
+                'jobs_page' => $page
                 ), array('%s','%d') );
         ?>
-            <div id="notifiy">El fichero: <?= $key ?> ha sido añadida, pag: <?= $page ?></div>
+            <div id="notifiy">File: <?= $key ?> has been added, site: <?= $page ?></div>
         <?php
     }
 }
@@ -49,71 +48,14 @@ function superWHF_admin(){
     <div id="s-whf">
         <header id="main-header"><h1>Super WhiteHatFirm Plugin</h1></header>
         <main id="main-content">
-            <div class="comandos"><a href="#whf-keys" class="boton primario open-modal">Nuevo fichero</a>
-            <?php
-                whf_confirmar();
+            <?php if(isset($_GET['jobs-id'])){
+                inc_e('jobs-profile');
+            }else{
+                inc_e('jobs-list');
+            }
             ?>
-            </div>
-            <div id="whf-keys" class="modal-r">
-                <div class="center">
-                    <form class="modal-content" action="" method="post" enctype="multipart/form-data">
-                        <div class="whf-inputs">
-                            <label><p>Generar llaves:</p>
-                            <input type="text" name="jobs_keys" value="<?= rand() ?>" readonly="readonly"></label>
-                        </div>
-                        <div class="whf-inputs">
-                            <label><p>Sitio web: http://</p>
-                            <input type="text" name="jobs_page"></label>
-                        </div>
-                        <div class="whf-inputs">
-                            <label><p>recursos:</p>
-                            <textarea name="jobs_resource"></textarea></label>
-                            <p>Separalas con comas(,) ejemplo: http://comindwork.com,http://otrosrecursos.com</p>
-                        </div>
-                        <input type="hidden" name="check">
-                        <?php submit_button(); ?>
-                    </form>
-                </div>
-            </div>
-            <div id="jobs">
-                <div class="head">
-                    <div class="administrar"></div>
-                    <div class="sitio">Sitio web: </div>
-                    <div class="cliente">Cliente: </div>
-                    <div class="key">Llave: </div>
-                    <div class="progreso">Progreso: </div>
-                </div>
-                <?php
-                function value_use(){
-                    if($row['jobs_user'] == true){
-                        echo "used";
-                    }else{
-                        echo "no-use";
-                    }
-                } 
-                $query = $wpdb->get_results("SELECT * FROM $whf_jobs", ARRAY_A);
-                    foreach($query as $row){
-                        ?> 
-                        <div class="items <?php value_use(); ?>">
-                            <div class="administrar"><a href="<?= URLADMIN ?>jobs-id=<?= $row['jobs_id'] ?>">Administrar</a></div>
-                            <div class="sitio"><?= $row['jobs_page'] ?></div>
-                            <div class="cliente"><?= $row['jobs_cliente'] ?></div>
-                            <div class="key"><?= $row['jobs_keys'] ?></div>
-                            <div class="progreso"><?= $row['jobs_progress'] ?></div>
-                        </div>
-                        <?php
-                    }
-                ?>
-            </div>
         </main>
     </div>
     <?php
-}
-function swhf_interface(){
-    include('interface/todo.php');
-}
-function superWHF_jobs(){
-    echo "probando";
-    echo DB_USER;
 }
 ?>
