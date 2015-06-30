@@ -39,6 +39,7 @@
             ),array(
                 'jobs_id' => $jobsid
             ));
+            
             if(!$prueba){
                 echo "algun error $progress y $jobsid";
             }else{
