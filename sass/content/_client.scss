@@ -1,0 +1,80 @@
+.content-w{
+
+	.w-page-title{
+		background-color: $color-secundario;
+		padding: 5px;
+		color:white;
+		font-size:30px;
+	}
+	.sec{
+		padding-bottom: 5px;
+		margin-bottom: 10px;
+		border-bottom: 1px dashed $color-secundario;
+		.w-title{
+			margin: 8px 13px;
+		}
+		&:nth-last-child{
+			border-bottom: 1px none $color-secundario;
+		}
+	}
+	.w-progress{
+		width:100%;
+		@include display(flex);
+		@include justify-content(space-around);
+		@include align-items(center);
+		
+		h3{
+			margin: 0px;
+		}
+		.marco{
+			width:70%;
+			position:relative;
+			height: 30px;
+			display:block;
+			padding: 5px;
+			border: 1px #9CD72C solid;
+
+			.w-progress-i{
+				display:inline-block;
+				background: url('../images/pattter.png') repeat;
+				height:100%;
+			}
+			.w-progress-t{
+				position: absolute;
+				top: 0px;
+				left: 10px;
+				font-size: 20px;
+				font-weight:bold;
+				padding: 2px;
+				color:white;
+			}
+		}
+	}
+	#comments {
+        background-color: rgba(0, 0, 0, 0.1);
+        margin: 5px;
+        
+        .comment{
+            padding: 15px 10px 2px;
+            
+            display: block;
+            &:nth-child(2n+2){
+                background-color: rgba(30, 30, 30, 0.1);
+            }
+            .contenido, .datos{
+                @include display(flex);
+            }
+            .contenido{
+                font-size: 22px;
+                text-align: justify;
+            }
+            .datos{
+                @include justify-content(space-around);
+                .author, .date{
+                    padding: 10px;
+                    font-size: 10px;
+                }
+            }
+        }
+    }
+}

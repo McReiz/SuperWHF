@@ -1,12 +1,19 @@
 <?php 
 /* scripts */
-function styles_script(){
-    wp_register_style('WHFStyle', STYLE. 'style.css', array(), '1.0');
+function admin_styles_script(){
+    wp_register_style('WHFStyle', STYLE. 'admin.css', array(), '1.0');
     wp_enqueue_style('WHFStyle');
     wp_enqueue_script('jQuery', SCRIPT. 'jquery-1.11.0.min.js', array(), '1.11.0');
     wp_enqueue_script('globalScript', SCRIPT. 'globalScript.js', array(), '1.0');
 }
-add_action('admin_enqueue_scripts', 'styles_script');
+add_action('admin_enqueue_scripts', 'admin_styles_script');
+
+function client_style_script(){
+    wp_register_style('WHFStyle', STYLE. 'style.css', array(), '1.0');
+    wp_enqueue_style('WHFStyle');
+}
+add_action('wp_enqueue_scripts','client_style_script');
+
 /* MENUS */
 function superWHF_menu(){
     add_menu_page('Super WHF', 'Super WHF >>', 'manage_options', 'super-whf', 'superWHF_admin'); /* principal*/

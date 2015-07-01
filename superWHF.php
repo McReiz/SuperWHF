@@ -99,6 +99,9 @@ Author URI: http://fb.com/elReiz
     function inc_e($arch){
         include('/interface/admin/'.$arch.'.php');
     }
+    function inc_c($arch){
+        include('/interface/client/'.$arch.'.php');
+    }
     include('whf-admin.php');/* administracion */
     include('login-and-register.php'); /* page */
 ?>
