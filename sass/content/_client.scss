@@ -17,6 +17,41 @@
 			border-bottom: 1px none $color-secundario;
 		}
 	}
+    .w-list-page{
+        display: table;
+        width: 100%;
+        
+        .head{
+            display: table-header-group;
+            background-color: $color-secundario;
+            color: white;
+        }
+        .item{
+            display: table-row;
+            background-color: rgba(30,30,30,.1);
+            
+            &:nth-child(2n+1){
+                background-color: rgba(30,30,30,.2);
+            }
+            a:hover{
+                text-decoration: underline;
+            }
+        }
+        .head, .item{
+            @include box-sizing(border-box);
+            
+            .w-t-website, .w-t-progress, .w-t-view{
+                display: table-cell;
+                padding: 5px;
+            }
+            .w-t-progress{
+                width: 80px;
+            }
+            .w-t-view{
+                width: 120px;
+            }
+        }
+    }
 	.w-progress{
 		width:100%;
 		@include display(flex);
@@ -38,11 +73,19 @@
 				display:inline-block;
 				background: url('../images/pattter.png') repeat;
 				height:100%;
+                position: relative;
+                .icon{
+                    position: absolute;
+                    right: -15px;
+                    top: -5px;
+                    max-width: none;
+                }
 			}
 			.w-progress-t{
 				position: absolute;
 				top: 0px;
 				left: 10px;
+                text-shadow: 1px 1px 5px rgba(0,0,0,.5);
 				font-size: 20px;
 				font-weight:bold;
 				padding: 2px;
@@ -54,7 +97,7 @@
         background-color: rgba(0, 0, 0, 0.1);
         margin: 5px;
         
-        .comment{
+        .w-comment{
             padding: 15px 10px 2px;
             
             display: block;

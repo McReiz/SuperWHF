@@ -9,6 +9,7 @@
         global $wpdb;
         $jobs = $wpdb->prefix . 'whf_jobs_comment';
         $whf_jobs = $wpdb->prefix. "whf_jobs";
+        $whf_jobs_resource = $wpdb->prefix. "whf_jobs_resource";
         $jobsid = $_GET['jobs-id'];
         /* insertar comentarios */
         if(isset($_POST['crea'])){
@@ -44,6 +45,38 @@
                 echo "algun error $progress y $jobsid";
             }else{
                 ?> <div id="notifiy">updated progress bar</div><?php
+            }
+        }
+        if(isset($_POST['resource'])){
+            $resource = $_POST['resource'];
+            if($resource == "add"){
+                $name = $_POST['nombre'];
+                $link = $_POST['link'];
+                $query = $wpdb->insert($whf_jobs_resource, array(
+                    'jobs_res_name' => $name,
+                    'jobs_res_link' => $link,
+                    'jobs_for_id' => $jobsid
+                ));
+                if($query){
+                    ?><div id="notifiy">Resource successfully added</div><?php
+                }else{
+                    ?><div id="notifiy">Error inesperado</div><?php
+                }
+            }
+            if($resource == "del"){
+                $id = $_POST['id'];
+                $del = $wpdb->delete($whf_jobs_resource, array(
+                    'jobs_res_id' => $id
+                ));
+                if($del){
+                    ?>
+                        <div id="notifiy">The resource to deleted</div>
+                    <?php
+                }else{
+                    ?>
+                        <div id="notifiy">Error inesperado</div>
+                    <?php
+                }
             }
         }
     }
@@ -95,15 +128,39 @@
         </form>
     </div>
     <div id="box">
-        <form action="" method="post">
+        
             <h3>Resource:</h3>
-            <div id="resource">
-                <div>
-                    <input type="text" name="nombre" placeholder="resource">
-                    <input type="text" name="link" placeholder="http://resource.com">
+            
+            <form action="" method="post">
+                <div id="resource">
+                    <div>
+                        <input type="text" name="nombre" placeholder="resource">
+                        <input type="text" name="link" placeholder="http://resource.com">
+                        <input type="hidden" name="resource" value="add">
+
+                    </div>
+                    <input class="button button-primary" type="submit" value="add">
                 </div>
-                <input class="button button-primary" type="submit" value="add">
+            </form>
+            
+            <div id="resource-2">
+                <?php 
+                    $whf_jobs_resource = $wpdb->prefix. "whf_jobs_resource";
+                    $query = $wpdb->get_results("SELECT * FROM $whf_jobs_resource WHERE jobs_for_id = $jobsid ORDER BY jobs_res_id DESC", ARRAY_A);
+                    foreach($query as $row){
+                    ?>
+                        <div class="rest">
+                            <a href="<?= $row['jobs_res_link'] ?>" target="_blank"><?= $row['jobs_res_name'] ?></a>
+                            <form action="" method="post">
+                                <input type="submit" class="button button-primary" value="Delete">
+                                <input type="hidden" name="id" value="<?= $row['jobs_res_id'] ?>">
+                                <input type="hidden" name="resource" value="del">
+                            </form>
+                        </div>
+                    <?
+                    }
+                ?>
             </div>
-        </form>
+        
     </div>
 </aside>

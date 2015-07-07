@@ -40,4 +40,5 @@ $(document).ready( function(){
         //submitform();
         return false;
     });
+    $('#notifiy').fadeOut(7000);
 });

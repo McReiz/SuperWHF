@@ -2,16 +2,19 @@
 /*
 Plugin Name: Super WhiteHatFirm
 Description: Mejoras para WhiteHatFirm, para hacer que el cliente este mas cerca de los procesos de creacion. Requiere WP SESSION MANAGER para funcionar.
-Version: alpha 2.5
+Version: beta 1.5
 Author: McReiz
 Author URI: http://fb.com/elReiz
 */
 ?>
 <?php
     global $version_whf;
-    $version_whf = "alpha 2.5.11"; 
+    //global $reg;
+    //$reg = "";
+    $version_whf = "beta 1.5"; 
     define('STYLE', plugins_url('SuperWHF/estilos/'));
     define('SCRIPT', plugins_url('SuperWHF/scripts/'));
+    define('IMG', plugins_url('SuperWHF/images/'));
     define('URLADMIN', admin_url('admin.php?page=super-whf&'));
 
     // let users change the session cookie name
@@ -45,6 +48,7 @@ Author URI: http://fb.com/elReiz
                     jobs_keys VARCHAR(10) NOT NULL,
                     jobs_used INT NOT NULL,
                     jobs_page VARCHAR(40) NOT NULL,
+                    jobs_client_id INT NOT NULL,
                     jobs_cliente VARCHAR(40) NOT NULL,
                     jobs_progress INT NOT NULL,
                     PRIMARY KEY ( jobs_id ));";
@@ -86,6 +90,7 @@ Author URI: http://fb.com/elReiz
             update_option('version_whf', $version_whf);
         }else{
             add_option('version_whf', $version_whf);
+            //add_option('whf_config_red', $reg);
         }
     }
     add_action('plugins_loaded', 'superWHF_install');
@@ -102,6 +107,31 @@ Author URI: http://fb.com/elReiz
     function inc_c($arch){
         include('/interface/client/'.$arch.'.php');
     }
+    
+    /* script y styles */ 
+    function admin_styles_script(){
+        wp_register_style('WHFStyle', STYLE. 'admin.css', array(), '1.0');
+        wp_enqueue_style('WHFStyle');
+        wp_enqueue_script('jQuery', SCRIPT. 'jquery-1.11.0.min.js', array(), '1.11.0');
+        wp_enqueue_script('globalScript', SCRIPT. 'globalScript.js', array(), '1.0');
+    }
+    add_action('admin_enqueue_scripts', 'admin_styles_script');
+
+    function client_style_script(){
+        wp_register_style('WHFStyle', STYLE. 'style.css', array(), '1.0');
+        wp_enqueue_style('WHFStyle');
+    }
+    add_action('wp_enqueue_scripts','client_style_script');
+    /* MENUS */
+    function superWHF_menu(){
+        add_menu_page('Super WHF', 'Super WHF >>', 'manage_options', 'super-whf', 'superWHF_admin'); /* principal*/
+        add_submenu_page('super-whf', 'Clients','Clients','manage_options', 'super-whf-jobs','superWHF_jobs');
+        add_submenu_page('super-whf', 'Config','Config','manage_options', 'whf_config_form','whf_config_form');
+        add_menu_page('Live Chat Support', 'Live Chat>>', 'manage_options', 'livechat', 'livech_wp');
+    }
+    add_action('admin_menu','superWHF_menu');
     include('whf-admin.php');/* administracion */
     include('login-and-register.php'); /* page */
+    include('whf-config.php');/* Configuracion global */
+
 ?>

@@ -181,12 +181,42 @@
                 width: 100%;
             }
             #resource{
+                margin-top: 10px;
                 @include display(flex);
                 @include justify-content(space-around);
                 @include align-items(center);
                 
-                div input{width:95%;padding:5px;}
+                div input[type="text"]{width:95%;padding:5px;}
+                .rest{
+                    width: 60%;
+                    @include display(flex);
+                    @include justify-content(space-around);
+                    @include align-items(center);
+                    
+                    a, form{
+                        padding: 10px;
+                    }
+                }
+            }
+            #resource-2{
+                display: block;
+                .rest{
+                    @include display(flex);
+                    @include justify-content(space-around);
+                    @include align-items(center);
+                    
+                    a, form{
+                        padding: 10px;
+                    }
+                    &:hover{
+                        background: rgba(25,25,25,.1);
+                    }
+                }
             }
         }
     }
+}
+.livecht-w{
+    width: 100%;
+    min-height: 600px;
 }
