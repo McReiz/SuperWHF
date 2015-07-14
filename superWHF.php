@@ -17,19 +17,21 @@ Author URI: http://fb.com/elReiz
     define('IMG', plugins_url('SuperWHF/images/'));
     define('URLADMIN', admin_url('admin.php?page=super-whf&'));
 
+    //  PLUGIN WP_SESSION_MANAGER
     // let users change the session cookie name
     if( ! defined( 'WP_SESSION_COOKIE' ) )
         define( 'WP_SESSION_COOKIE', '_wp_session' );
 
     if ( ! class_exists( 'Recursive_ArrayAccess' ) ) {
-        require_once( '/session/class-recursive-arrayaccess.php' );
+        include( plugin_basename('/session/class-recursive-arrayaccess.php') );
     }
 
     // Only include the functionality if it's not pre-defined.
     if ( ! class_exists( 'WP_Session' ) ) {
-        require_once( '/session/class-wp-session.php' );
-        require_once( '/session/wp-session.php' );
+        include( plugin_basename('/session/class-wp-session.php') );
+        include( plugin_basename('/session/wp-session.php') );
     }
+
 
     function superWHF_install(){
         global $wpdb;
@@ -102,10 +104,10 @@ Author URI: http://fb.com/elReiz
     add_action('init', 'whf_ins_session');
 
     function inc_e($arch){
-        include('/interface/admin/'.$arch.'.php');
+        include(plugin_basename('/interface/admin/'.$arch.'.php'));
     }
     function inc_c($arch){
-        include('/interface/client/'.$arch.'.php');
+        include(plugin_basename('/interface/client/'.$arch.'.php'));
     }
     
     /* script y styles */ 
