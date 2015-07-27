@@ -2,7 +2,7 @@
 /*
 Plugin Name: Super WhiteHatFirm
 Description: Mejoras para WhiteHatFirm, para hacer que el cliente este mas cerca de los procesos de creacion. Requiere WP SESSION MANAGER para funcionar.
-Version: beta 1.5
+Version: beta 2.8
 Author: McReiz
 Author URI: http://fb.com/elReiz
 */
@@ -11,7 +11,7 @@ Author URI: http://fb.com/elReiz
     global $version_whf;
     //global $reg;
     //$reg = "";
-    $version_whf = "beta 1.5"; 
+    $version_whf = "beta 2.8"; 
     define('STYLE', plugins_url('SuperWHF/estilos/'));
     define('SCRIPT', plugins_url('SuperWHF/scripts/'));
     define('IMG', plugins_url('SuperWHF/images/'));
@@ -42,16 +42,14 @@ Author URI: http://fb.com/elReiz
         $whf_client = $wpdb->prefix. "whf_client";
         $whf_jobs_comment = $wpdb->prefix. "whf_jobs_comment";
         $whf_jobs_resource = $wpdb->prefix. "whf_jobs_resource";
+        $whf_rank_list = $wpdb->prefix. "whf_rank_list";
         
         if($version_whf_db != $version_whf){
             /* crear la tabla del fichero */
             $sql = "CREATE TABLE $whf_jobs (
                     jobs_id INT NOT NULL AUTO_INCREMENT,
-                    jobs_keys VARCHAR(10) NOT NULL,
-                    jobs_used INT NOT NULL,
                     jobs_page VARCHAR(40) NOT NULL,
                     jobs_client_id INT NOT NULL,
-                    jobs_cliente VARCHAR(40) NOT NULL,
                     jobs_progress INT NOT NULL,
                     PRIMARY KEY ( jobs_id ));";
             $wpdb->query($sql);
@@ -61,9 +59,9 @@ Author URI: http://fb.com/elReiz
                     jobs_client_id INT NOT NULL AUTO_INCREMENT,
                     jobs_client_user VARCHAR(10) NOT NULL,
                     jobs_client_pass VARCHAR(100) NOT NULL,
-                    jobs_client_page VARCHAR(40) NOT NULL,
                     jobs_client_name VARCHAR(50) NOT NULL,
                     jobs_client_email VARCHAR(40) NOT NULL,
+                    jobs_client_rank VARCHAR(10) NOT NULL,
                     jobs_client_descri TEXT NOT NULL,
                     jobs_for_id INT NOT NULL,
                     PRIMARY KEY ( jobs_client_id ));";
@@ -86,7 +84,14 @@ Author URI: http://fb.com/elReiz
                     jobs_res_link VARCHAR(40) NOT NULL,
                     jobs_for_id INT NOT NULL,
                     PRIMARY KEY ( jobs_res_id ));";
-            
+            $wpdb->query($sql);
+
+            /* crear tabla de rangos */
+            $sql = "CREATE TABLE $whf_rank_list (
+                   jobs_rank_id INT NOT NULL AUTO_INCREMENT,
+                   jobs_rank_name VARCHAR(10) NOT NULL,
+                   jobs_rank_permission TEXT NOT NULL,
+                   PRIMARY KEY ( jobs_rank_id ));";
             $wpdb->query($sql);
 
             update_option('version_whf', $version_whf);
@@ -127,11 +132,11 @@ Author URI: http://fb.com/elReiz
     /* MENUS */
     function superWHF_menu(){
         add_menu_page('Super WHF', 'Super WHF >>', 'manage_options', 'super-whf', 'superWHF_admin'); /* principal*/
-        add_submenu_page('super-whf', 'Clients','Clients','manage_options', 'super-whf-jobs','superWHF_jobs');
         add_submenu_page('super-whf', 'Config','Config','manage_options', 'whf_config_form','whf_config_form');
         add_menu_page('Live Chat Support', 'Live Chat>>', 'manage_options', 'livechat', 'livech_wp');
     }
     add_action('admin_menu','superWHF_menu');
+    
     include('whf-admin.php');/* administracion */
     include('login-and-register.php'); /* page */
     include('whf-config.php');/* Configuracion global */

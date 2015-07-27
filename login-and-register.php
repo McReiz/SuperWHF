@@ -24,7 +24,7 @@ function form_login(){
 
             <input type="hidden" name="confirm">
 
-            <input type="submit" value="Entrar"> 
+            <input type="submit" value="Submit"> 
         </form>
     <?php
 }
@@ -61,7 +61,7 @@ function form_login_set(){
                 echo $wp_session['w-user'];
                 
                 $redirigir = get_option('whf_config_red');
-                ?><a href="<?= $redirigir ?>"> To panel</a><?php
+                ?><a href="<?= $redirigir ?>">To panel</a><?php
             }else{
                 ?><div class="notify-w error">invalid user or password</div><?php
                 form_login();
@@ -75,7 +75,7 @@ function formLogin_WHF(){
     ?>
     <div class="content-w">
     <?php
-    //if(!(current_user_can('level_0'))){
+
         global $wp_session;
 
         if(isset($wp_session['connet'])){
@@ -91,9 +91,6 @@ function formLogin_WHF(){
         }else{
             form_login_set();
         }
-    /*}else{
-       // el usuario wordpress
-    }*/
     ?>
     </div>
     <?php
@@ -104,30 +101,47 @@ function formLogin_WHF(){
     //
 */
 
-function form_register($key_id, $key, $page){
+function form_register(){
     ?>
     <form action="" method="post">
-        Usuarios:
-        <input type="text" name="w-user"><br>
-        Email:
-        <input type="email" name="w-email"><br>
-        Clave:
-        <input type="password" name="pass-w"><br>
-        Confirmar clave:
-        <input type="password" name="pass-w-clave1"><br>
-        Nombre:
-        <input type="text" name="w-name"><br>
+        <div class="inputs">
+            <label>
+                <span>Users:</span>
+                <input type="text" name="w-user">
+            </label>
+        </div>
 
-        <input type="hidden" name="key-id" value="<?= $key_id ?>">
-        <input type="hidden" name="key" value="<?= $key ?>">
-        <input type="hidden" name="page" value="<?= $page ?>">
+        <div class="inputs">
+            <label>
+                <span>Email:</span>
+                <input type="email" name="w-email">
+            </label>
+        </div>
+        <div class="inputs">
+            <label>
+                <span>Password:</span>
+                <input type="password" name="pass-w">
+            </label>
+        </div>
+        <div class="inputs">
+            <label>
+                <span>Confirm Password:</span>
+                <input type="password" name="pass-w-clave1">
+            </label>
+        </div>
+        <div class="inputs">
+            <label>
+                <span>Name:</span>
+                <input type="text" name="w-name">
+            </label>
+        </div>
         
         <input type="hidden" name="confirmn">
-        <input type="submit" value="Enviar">
+        <input type="submit" value="Submit">
     </form>
     <?php
 }
-function whf_register($key_id, $used, $page){
+function whf_register(){
     global $wpdb;
     $whf_client = $wpdb->prefix. "whf_client";
     $whf_jobs = $wpdb->prefix. "whf_jobs";
@@ -138,14 +152,10 @@ function whf_register($key_id, $used, $page){
         $w_pass_check = md5(htmlentities($_POST['pass-w-clave1']));
         $w_email = htmlentities($_POST['w-email']);
         $w_name = htmlentities($_POST['w-name']);
-        $w_page = htmlentities($_POST['page']);
-        $for_id = htmlentities($_POST['key-id']);
-
-        $key2 = htmlentities($_POST['key']);
 
         if(empty($w_user) or empty($w_pass) or empty($w_email) or empty($w_name)){
             ?><div class="notify-w error">Please fill out all the forms</div><?php
-            form_register($key_id, $used, $page);
+            form_register();
         }else{
             if($w_pass != $w_pass_check){
                 ?><div class="notify-w error">password do not match</div><?php
@@ -157,32 +167,27 @@ function whf_register($key_id, $used, $page){
                 if($queryc['jobs_client_user'] == $w_user or $queryc['jobs_client_email'] == $w_email){
                     ?>
                         <div class="notify-w error">the user name or email already exists</div>
-
                     <?php
-                    form_register($for_id,$key2,$w_page);
+                    form_register();
                 }else{
                     $enviar = $wpdb->insert($whf_client, array(
                         'jobs_client_user' => $w_user,
                         'jobs_client_pass' => $w_pass,
-                        'jobs_client_page' => $w_page,
                         'jobs_client_name' => $w_name,
                         'jobs_client_email' => $w_email,
-                        'jobs_for_id' => $for_id
-                    ));
-                    
-                    $queryc = $wpdb->get_row("SELECT * FROM $whf_client WHERE jobs_client_user = '$w_user' or jobs_client_email = '$w_email'", ARRAY_A);
-                    
-                    $wpdb->update($whf_jobs, array(
-                        'jobs_used' => 1,
-                        'jobs_client_id' => $queryc['jobs_client_id'],
-                        'jobs_cliente' => $w_name
-                    ), array(
-                        'jobs_id' => $for_id
+                        'jobs_client_rank' => 'rank_c'
                     ));
                     if($enviar){
-                        ?><div class="notify-w success">Successful Registration</div>
+                        ?>
+                            <div class="notify-w success">Successful Registration</div>
                             <a href="<?= get_option('whf_config_red') ?>">It runs! log in</a>
                         <?php
+                        $to = get_option('whf_email');
+                        $subject = '[WhiteHatFirm] new registered user';
+                        $body = 'User: {$w_user} <br>Name: {$w_name} <br> Email: {$w_mail}<br>';
+                        $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                        wp_mail( $to, $subject, $body, $headers );
                     }else{
                         ?>ERROR INESPERADO DE LA BASE DE DATOS<?php
                     }
@@ -190,41 +195,7 @@ function whf_register($key_id, $used, $page){
             }
         }
     }else{
-        form_register($key_id, $used, $page);
-    }
-}
-function formRegister_WHF(){
-    global $wpdb;
-    global $wp_session;
-    $whf_jobs = $wpdb->prefix. "whf_jobs";
-
-    if(isset($_GET['key'])){
-        $key = htmlentities($_GET['key']);
-
-        $queryj = $wpdb->get_row("SELECT * FROM $whf_jobs WHERE jobs_keys = $key", ARRAY_A);
-        $key_id = $queryj['jobs_id'];
-        $used = $queryj['jobs_used'];
-        $page = $queryj['jobs_page'];
-        $key_check = $queryj['jobs_keys'];
-
-        if($queryj){
-            if($used == 0){
-                ?>
-                    <?php whf_register($key_id,$key_check,$page) ?>
-                <?php
-            }else{
-                echo "the key was already used";
-            }
-        }else{
-            echo "the entered key does not exist";
-        }
-    }else{
-        ?>
-        <form action="" method="get">
-            <input type="text" name="key" placeholder="Introdusca tu key">
-            <input type="submit" value="submit">
-        </form>
-        <?php
+        form_register();
     }
 }
 function limpiar_session(){
@@ -237,5 +208,5 @@ function limpiar_session(){
 }
 add_shortcode( 'session-exit', 'limpiar_session' );
 add_shortcode( 'formLogin', 'formLogin_WHF' );
-add_shortcode( 'formRegister', 'formRegister_WHF' );
+add_shortcode( 'formRegister', 'whf_register' );
 ?>

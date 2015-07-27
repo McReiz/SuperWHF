@@ -1,8 +1,9 @@
 <?php 
     global $wpdb;
     $whf_jobs = $wpdb->prefix. "whf_jobs";
-    $jobsid = $_GET['jobs-id'];
-    $queryj = $wpdb->get_row("SELECT * FROM $whf_jobs WHERE jobs_id = $jobsid", ARRAY_A);
+    $client_id = $_GET['jobs-id'];
+    $jobsid = $_GET['jobs-page-id'];
+    $queryj = $wpdb->get_row("SELECT * FROM $whf_jobs WHERE jobs_id = '$jobsid'", ARRAY_A);
     date_default_timezone_set('UTC');
 
     function confirm_form(){
@@ -10,11 +11,10 @@
         $jobs = $wpdb->prefix . 'whf_jobs_comment';
         $whf_jobs = $wpdb->prefix. "whf_jobs";
         $whf_jobs_resource = $wpdb->prefix. "whf_jobs_resource";
-        $jobsid = $_GET['jobs-id'];
+        $jobsid = $_GET['jobs-page-id'];
         /* insertar comentarios */
         if(isset($_POST['crea'])){
             $commend = $_POST['log'];
-            
             $author = $_POST['author'];
             $fecha = $_POST['fecha'];
             
@@ -81,7 +81,7 @@
         }
     }
 ?>
-<div class="comandos"><a href="<?= URLADMIN ?>">&#171; Back to the list</a><?php confirm_form(); ?></div>
+<div class="comandos"><a href="<?= URLADMIN ?>jobs-id=<?= $client_id ?>">&#171; Back to the list</a><?php confirm_form(); ?></div>
 <section class="profile">
     <header>
         <h1><?= $queryj['jobs_page'] ?></h1>
